@@ -7,3 +7,38 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+Product.create(
+  [
+    {
+      name: 'PS4',
+      brand: 'Sony',
+      price: '$32.00 USD',
+      description: 'Sony Gaming Console'
+    },
+    {
+      name: 'Gallaxy Pro',
+      brand: 'Samsung',
+      price: '$700.00 USD',
+      description: 'Samsung Gaming Console'
+    },
+    {
+      name: 'MacBook 12',
+      brand: 'Apple',
+      price: '$409.00 USD',
+      description: 'Apple Gaming Console'
+    },
+    {
+      name: 'Printor',
+      brand: 'Canon',
+      price: '$5.00 USD',
+      description: 'Canon Gaming Console'
+    },
+    {
+      name: 'Magic Book',
+      brand: 'Honor',
+      price: '$21.00 USD',
+      description: 'Honor Gaming Console'
+    }
+  ]
+)
