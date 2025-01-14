@@ -1,4 +1,6 @@
 class Api::V1::ProductsController < ApplicationController
+  before_action :load_product, only: %i[show update destroy]
+
   def index
     @products = Product.all
 
@@ -6,8 +8,6 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def show
-    @product = Product.find_by(id: params[:id])
-
     if @product
       render json: @product
     else
@@ -17,28 +17,32 @@ class Api::V1::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-
-    if @product.save
-      render json: @product, status: :created
-    else
-      render json: { error: 'Error creating review!' }
-    end
+    save_product(@product)
   end
 
   def update
-    @product = Product.find_by(id: params[:id])
-
-    @product.update(product_params)
-    render json: @product
+    save_product(@product)
   end
 
   def destroy
-    @product = Product.find_by(id: params[:id])
-
     @product.destroy
+    head :no_content
   end
 
   private
+
+  def save_product(product)
+    if product.save || product.update(product_params)
+      flash[:notice] = 'Product was successfully saved.'
+      render json: product
+    else
+      render json: { error: 'There was an error saving the product!' }
+    end
+  end
+
+  def load_product
+    @product = Product.find_by(id: params[:id])
+  end
 
   def product_params
     params.require(:product).permit(:name, :brand, :price, :description)
