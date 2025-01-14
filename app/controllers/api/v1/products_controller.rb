@@ -17,28 +17,24 @@ class Api::V1::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    save_product(@product)
-  end
-
-  def update
-    save_product(@product)
-  end
-
-  def destroy
-    @product.destroy
-    head :no_content
-  end
-
-  private
-
-  def save_product(product)
-    if product.save || product.update(product_params)
-      flash[:notice] = 'Product was successfully saved.'
-      render json: product
+    if @product.save
+      render json: @product
     else
       render json: { error: 'There was an error saving the product!' }
     end
   end
+
+  def update
+    @product.update(product_params)
+
+    render json: @product
+  end
+
+  def destroy
+    @product.destroy
+  end
+
+  private
 
   def load_product
     @product = Product.find_by(id: params[:id])
